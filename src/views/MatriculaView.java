@@ -102,26 +102,26 @@ public class MatriculaView {
 
 		tfNombre = new JTextField();
 		tfNombre.setEditable(false);
-		tfNombre.setBounds(101, 123, 243, 26);
+		tfNombre.setBounds(158, 123, 243, 26);
 		frame.getContentPane().add(tfNombre);
 		tfNombre.setColumns(10);
 
 		tfApellidos = new JTextField();
 		tfApellidos.setEditable(false);
 		tfApellidos.setColumns(10);
-		tfApellidos.setBounds(101, 170, 243, 26);
+		tfApellidos.setBounds(158, 170, 243, 26);
 		frame.getContentPane().add(tfApellidos);
 
 		tfCiclo = new JTextField();
 		tfCiclo.setEditable(false);
 		tfCiclo.setColumns(10);
-		tfCiclo.setBounds(101, 217, 243, 26);
+		tfCiclo.setBounds(158, 217, 243, 26);
 		frame.getContentPane().add(tfCiclo);
 
 		tfMedia = new JTextField();
 		tfMedia.setFont(new Font("Tahoma", Font.PLAIN, 26));
 		tfMedia.setEditable(false);
-		tfMedia.setBounds(354, 84, 86, 70);
+		tfMedia.setBounds(411, 84, 86, 70);
 		frame.getContentPane().add(tfMedia);
 		tfMedia.setColumns(10);
 
@@ -210,28 +210,28 @@ public class MatriculaView {
 		tfId = new JTextField();
 		tfId.setEditable(false);
 		tfId.setColumns(10);
-		tfId.setBounds(101, 84, 243, 26);
+		tfId.setBounds(158, 84, 243, 26);
 		frame.getContentPane().add(tfId);
 
 		tfMediaGeneral = new JTextField();
 		tfMediaGeneral.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		tfMediaGeneral.setEditable(false);
 		tfMediaGeneral.setColumns(10);
-		tfMediaGeneral.setBounds(32, 84, 59, 47);
+		tfMediaGeneral.setBounds(20, 79, 59, 47);
 		frame.getContentPane().add(tfMediaGeneral);
 
 		tfMediaMenor = new JTextField();
 		tfMediaMenor.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		tfMediaMenor.setEditable(false);
 		tfMediaMenor.setColumns(10);
-		tfMediaMenor.setBounds(32, 155, 59, 47);
+		tfMediaMenor.setBounds(20, 150, 59, 47);
 		frame.getContentPane().add(tfMediaMenor);
 
 		tfMediaMayor = new JTextField();
 		tfMediaMayor.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		tfMediaMayor.setEditable(false);
 		tfMediaMayor.setColumns(10);
-		tfMediaMayor.setBounds(32, 220, 59, 47);
+		tfMediaMayor.setBounds(20, 215, 59, 47);
 		frame.getContentPane().add(tfMediaMayor);
 
 		JButton btnAddProfe = new JButton("A\u00F1adir profe");
@@ -243,6 +243,18 @@ public class MatriculaView {
 		});
 		btnAddProfe.setBounds(203, 268, 199, 26);
 		frame.getContentPane().add(btnAddProfe);
+		
+		JLabel lblMediaGeneral = new JLabel("Media general");
+		lblMediaGeneral.setBounds(20, 66, 115, 13);
+		frame.getContentPane().add(lblMediaGeneral);
+		
+		JLabel lblMediaMenor = new JLabel("Media m\u00E1s baja");
+		lblMediaMenor.setBounds(20, 136, 128, 13);
+		frame.getContentPane().add(lblMediaMenor);
+		
+		JLabel lblMediaMayor = new JLabel("Media m\u00E1s alta");
+		lblMediaMayor.setBounds(20, 202, 115, 13);
+		frame.getContentPane().add(lblMediaMayor);
 		fillProfes();
 	}
 
@@ -358,5 +370,4 @@ public class MatriculaView {
 		}
 		return -1;
 	}
-
 }
