@@ -44,12 +44,28 @@ public class LoginView {
 		frame.getContentPane().setLayout(null);
 		
 		tfUsername = new JTextField();
+		tfUsername.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				loginLogic();
+			}
+			}
+		});
 		tfUsername.setText("charmander");
 		tfUsername.setBounds(109, 65, 186, 20);
 		frame.getContentPane().add(tfUsername);
 		tfUsername.setColumns(10);
 		
 		pwdfPassword = new JPasswordField();
+		pwdfPassword.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					loginLogic();
+					}
+			}
+		});
 		pwdfPassword.setBounds(109, 112, 186, 20);
 		frame.getContentPane().add(pwdfPassword);
 		
@@ -57,43 +73,11 @@ public class LoginView {
 		
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Conectar con la BD y comprobar la tabla usuarios pa ver si furula.
-				String username = tfUsername.getText();
-				String password = new String(pwdfPassword.getPassword());
-				Usuario usuario = new Usuario(0, username, password);
-				boolean loginCorrecto = usuarioDAO.login(usuario);
-				if(loginCorrecto) {
-					JOptionPane.showMessageDialog(btnLogin, "Login correcto Bob.");
-					new MatriculaView();
-					frame.dispose();
-				} else {
-					JOptionPane.showMessageDialog(btnLogin, "Ah ah aaaah... login incorrecto...");
-				}
+			loginLogic();
 			}
 		});
 		btnLogin.setBounds(109, 182, 89, 23);
 		frame.getContentPane().add(btnLogin);
-		
-		// No consigo que funcione el keylistener
-				btnLogin.addKeyListener(new KeyAdapter() {
-					@Override
-					public void keyPressed(KeyEvent e) {
-						if (e.getKeyCode()==KeyEvent.VK_ENTER) {
-				String username = tfUsername.getText();
-						String password = new String(pwdfPassword.getPassword());
-						Usuario usuario = new Usuario(0, username, password);
-						boolean loginCorrecto = usuarioDAO.login(usuario);
-						if(loginCorrecto) {
-							JOptionPane.showMessageDialog(btnLogin, "Login correcto Bob.");
-							new MatriculaView();
-							frame.dispose();
-						} else {
-							JOptionPane.showMessageDialog(btnLogin, "Ah ah aaaah... login incorrecto...");
-						}
-						}
-						
-					}
-				});
 		
 		btnRegister = new JButton("Registrar");
 		btnRegister.addActionListener(new ActionListener() {
@@ -104,5 +88,20 @@ public class LoginView {
 		});
 		btnRegister.setBounds(208, 182, 89, 23);
 		frame.getContentPane().add(btnRegister);
+	}
+	
+	public void loginLogic() {
+		// Conectar con la BD y comprobar la tabla usuarios pa ver si furula.
+		String username = tfUsername.getText();
+		String password = new String(pwdfPassword.getPassword());
+		Usuario usuario = new Usuario(0, username, password);
+		boolean loginCorrecto = usuarioDAO.login(usuario);
+		if(loginCorrecto) {
+			JOptionPane.showMessageDialog(btnLogin, "Login correcto Bob.");
+			new MatriculaView();
+			frame.dispose();
+		} else {
+			JOptionPane.showMessageDialog(btnLogin, "Ah ah aaaah... login incorrecto...");
+		}
 	}
 }
