@@ -13,6 +13,8 @@ import javax.swing.JTextField;
 
 import dao.UsuarioDAO;
 import models.Usuario;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class RegisterView {
 
@@ -77,37 +79,62 @@ public class RegisterView {
 		frame.getContentPane().add(lblConfirmarPassword);
 		
 		btnRegister = new JButton("Registrar");
+		
 		btnRegister.addActionListener(new ActionListener() {
 			//OnClick
 			public void actionPerformed(ActionEvent e) {
-				String username = tfUsername.getText();
-				String password = new String(pwdPassword.getPassword());
-				String confirmarPassword = new String(pwdConfirmPassword.getPassword());
+			registration();
+			}
+		});
+		
+		pwdConfirmPassword.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				registration();
+			}
 				
-				if(password.equals(confirmarPassword)) {
-					if(!username.isEmpty() && !password.isEmpty() && !confirmarPassword.isEmpty()) {
-						//TODO 2. En el registro, consigue que valide que la contraseña tenga al menos 8 caracteres (1 pto.)
-						
-						if (password.length()>=8) {
-							Usuario u = new Usuario(0, username, password);
+			}
+		});
+		
+		btnRegister.setBounds(153, 201, 89, 23);
+		frame.getContentPane().add(btnRegister);
+	
+	
+	
+	}
+	
+	public void registration() {
+		String username = tfUsername.getText();
+		String password = new String(pwdPassword.getPassword());
+		String confirmarPassword = new String(pwdConfirmPassword.getPassword());
+		
+		if(password.equals(confirmarPassword)) {
+			if(!username.isEmpty() && !password.isEmpty() && !confirmarPassword.isEmpty()) {
+				//TODO 2. En el registro, consigue que valide que la contraseña tenga al menos 8 caracteres (1 pto.)
+				
+				if (password.length()>=8) {
+					Usuario u = new Usuario(0, username, password);
+					boolean alreadyRegisteredUser = usuarioDAO.consulta(u);
+					if (!alreadyRegisteredUser) {
 						usuarioDAO.register(u);
 						JOptionPane.showMessageDialog(btnRegister, "Usuario registrado correctamente");
 						new LoginView();
-						frame.dispose();
-						} else {
-							JOptionPane.showMessageDialog(lblRegistrar, "La contraseña debe tener 8 o más caracteres.");
-						}
-						
-						
+						frame.dispose();	
 					} else {
-						JOptionPane.showMessageDialog(lblRegistrar, "Las contraseñas no coinciden");
+						JOptionPane.showMessageDialog(btnRegister, "Este usuario ya está registrado.");
 					}
+				
 				} else {
-					JOptionPane.showMessageDialog(lblRegistrar, "Rellena todos los campos");
+					JOptionPane.showMessageDialog(lblRegistrar, "La contraseña debe tener 8 o más caracteres.");
 				}
+				
+				
+			} else {
+				JOptionPane.showMessageDialog(lblRegistrar, "Las contraseñas no coinciden");
 			}
-		});
-		btnRegister.setBounds(153, 201, 89, 23);
-		frame.getContentPane().add(btnRegister);
+		} else {
+			JOptionPane.showMessageDialog(lblRegistrar, "Rellena todos los campos");
+		}
 	}
 }

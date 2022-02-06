@@ -87,6 +87,7 @@ public class MatriculaView {
 		});
 		btnAtras.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		btnAtras.setBounds(10, 11, 59, 45);
+
 		frame.getContentPane().add(btnAtras);
 
 		btnSiguiente = new JButton(">");
@@ -205,34 +206,34 @@ public class MatriculaView {
 		cbProfe2.setBounds(333, 301, 151, 22);
 		cbProfe2.setVisible(false);
 		frame.getContentPane().add(cbProfe2);
-		
+
 		tfId = new JTextField();
 		tfId.setEditable(false);
 		tfId.setColumns(10);
 		tfId.setBounds(101, 84, 243, 26);
 		frame.getContentPane().add(tfId);
-		
+
 		tfMediaGeneral = new JTextField();
 		tfMediaGeneral.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		tfMediaGeneral.setEditable(false);
 		tfMediaGeneral.setColumns(10);
 		tfMediaGeneral.setBounds(32, 84, 59, 47);
 		frame.getContentPane().add(tfMediaGeneral);
-		
+
 		tfMediaMenor = new JTextField();
 		tfMediaMenor.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		tfMediaMenor.setEditable(false);
 		tfMediaMenor.setColumns(10);
 		tfMediaMenor.setBounds(32, 155, 59, 47);
 		frame.getContentPane().add(tfMediaMenor);
-		
+
 		tfMediaMayor = new JTextField();
 		tfMediaMayor.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		tfMediaMayor.setEditable(false);
 		tfMediaMayor.setColumns(10);
 		tfMediaMayor.setBounds(32, 220, 59, 47);
 		frame.getContentPane().add(tfMediaMayor);
-		
+
 		JButton btnAddProfe = new JButton("A\u00F1adir profe");
 		btnAddProfe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -261,10 +262,21 @@ public class MatriculaView {
 				cbProfe1.setSelectedIndex(getIndexProfe(a.getProfe1()));
 			if (a.getProfe2() != null)
 				cbProfe2.setSelectedIndex(getIndexProfe(a.getProfe2()) + 1);
-		
+
 			tfMediaGeneral.setText(alumnoDAO.mediaGeneral());
 			tfMediaMenor.setText(alumnoDAO.mediaMenor());
 			tfMediaMayor.setText(alumnoDAO.mediaMayor());
+
+			if (indice == 0) {
+				btnAtras.setVisible(false);
+			} else if (indice == alumnos.size() - 1) {
+				btnSiguiente.setVisible(false);
+			} 
+
+			if (indice != 0 && indice != alumnos.size()-1) {
+				btnAtras.setVisible(true);
+				btnSiguiente.setVisible(true);
+			}
 		}
 	}
 
@@ -278,20 +290,14 @@ public class MatriculaView {
 
 	private void printAtras() {
 		indice--;
-		if (indice < 0) {
-			btnAtras.setVisible(false);
-		}
 		printAlumno();
+
 	}
 
 	private void printDelante() {
 		indice++;
-		if (indice != alumnos.size()) {
-			printAlumno();
-		} else {
-			btnSiguiente.setVisible(false);
-		}
-		
+		printAlumno();
+
 	}
 
 	private void interruptorEditar() {
@@ -322,8 +328,9 @@ public class MatriculaView {
 		// Sacar el valor de los profes de los comboboxes
 		Profesor profe1 = profes.get(cbProfe1.getSelectedIndex());
 		a.setProfe1(profe1);
-		if(cbProfe2.getSelectedIndex() != 0 && cbProfe1.getSelectedIndex() != cbProfe2.getSelectedIndex() - 1 && cbProfe2.getSelectedIndex() != cbProfe1.getSelectedIndex()+1) {
-			Profesor profe2 =  profes.get(cbProfe2.getSelectedIndex()-1); //-1 porque el primero es Ninguno
+		if (cbProfe2.getSelectedIndex() != 0 && cbProfe1.getSelectedIndex() != cbProfe2.getSelectedIndex() - 1
+				&& cbProfe2.getSelectedIndex() != cbProfe1.getSelectedIndex() + 1) {
+			Profesor profe2 = profes.get(cbProfe2.getSelectedIndex() - 1); // -1 porque el primero es Ninguno
 			a.setProfe2(profe2);
 		}
 		alumnoDAO.update(a);
@@ -351,4 +358,5 @@ public class MatriculaView {
 		}
 		return -1;
 	}
+
 }

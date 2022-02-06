@@ -7,18 +7,16 @@ import models.Usuario;
 
 public class UsuarioDAO extends AbstractDAO{	
 
-	public void consulta() {
-		final String QUERY = "SELECT username, password FROM users";
+	public boolean consulta(Usuario usuario) {
+		final String QUERY = "SELECT username FROM users "+
+				"where username = '" + usuario.getUsername() + "'";
 		try {
 			ResultSet rs = stmt.executeQuery(QUERY);
-			while (rs.next()) {
-				// Display values
-				System.out.print("Username: " + rs.getString("username"));
-				System.out.println(", Password: " + rs.getString("password"));
-			}
+			return rs.next();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return false;
 	}
 	
 	public boolean login(Usuario usuario) {
