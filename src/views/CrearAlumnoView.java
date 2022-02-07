@@ -57,7 +57,6 @@ public class CrearAlumnoView {
 		lblMatricula.setBounds(152, 11, 243, 45);
 		frame.getContentPane().add(lblMatricula);
 
-
 		tfNombre = new JTextField();
 		tfNombre.setText("nombre");
 		tfNombre.setBounds(101, 123, 243, 26);
@@ -83,7 +82,7 @@ public class CrearAlumnoView {
 		tfMedia.setBounds(398, 123, 86, 70);
 		frame.getContentPane().add(tfMedia);
 		tfMedia.setColumns(10);
-		
+
 		btnCrear = new JButton("Crear");
 		btnCrear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -92,59 +91,60 @@ public class CrearAlumnoView {
 		});
 		btnCrear.setBounds(219, 366, 89, 23);
 		frame.getContentPane().add(btnCrear);
-		
+
 		cbProfe1 = new JComboBox<String>();
 		cbProfe1.setEditable(true);
 		cbProfe1.setBounds(101, 301, 151, 22);
 		frame.getContentPane().add(cbProfe1);
-		
+
 		cbProfe2 = new JComboBox<String>();
 		cbProfe2.setEditable(true);
 		cbProfe2.setBounds(333, 301, 151, 22);
 		frame.getContentPane().add(cbProfe2);
 		fillProfes();
+
 	}
 
 	private void insertarAlumno() {
-		if(tfApellidos.getText().isEmpty() || tfNombre.getText().isEmpty() || 
-				tfCiclo.getText().isEmpty() || tfMedia.getText().isEmpty() ) {
+		if (tfApellidos.getText().isEmpty() || tfNombre.getText().isEmpty() || tfCiclo.getText().isEmpty()
+				|| tfMedia.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(btnCrear, "Revisa todos los campos");
 		} else {
 			try {
 				double media = Double.parseDouble(tfMedia.getText());
-				Alumno a = new Alumno(0, tfNombre.getText(), tfApellidos.getText(),
-						tfCiclo.getText(), media);
-				
-				// Sacar el valor de los profes de los comboboxes
-				if(cbProfe1.getSelectedIndex() != cbProfe2.getSelectedIndex() - 1) {
-					
-					Profesor profe1 = profes.get(cbProfe1.getSelectedIndex());
-				a.setProfe1(profe1);
-				if(cbProfe2.getSelectedIndex() != 0 && cbProfe1.getSelectedIndex() != cbProfe2.getSelectedIndex() - 1) {
-					Profesor profe2 =  profes.get(cbProfe2.getSelectedIndex()-1); //+2 porque el primero es Ninguno
-					a.setProfe2(profe2);
-				}
-				} else {
-					JOptionPane.showMessageDialog(btnCrear, "Los profesores deben ser diferentes");
-				}
-				
-				
-				
-				alumnoDAO.insert(a);
-				JOptionPane.showMessageDialog(btnCrear, "Alumno creado");
-				new MatriculaView();
-				frame.dispose();
+				Alumno a = new Alumno(0, tfNombre.getText(), tfApellidos.getText(), tfCiclo.getText(), media);
 
-			} catch(Exception e) {
+				// Sacar el valor de los profes de los comboboxes
+				Profesor profe1 = profes.get(cbProfe1.getSelectedIndex());
+				a.setProfe1(profe1);
+				if (cbProfe2.getSelectedIndex() != 0
+						&& cbProfe1.getSelectedIndex() != cbProfe2.getSelectedIndex() - 1) {
+					Profesor profe2 = profes.get(cbProfe2.getSelectedIndex() - 1); // -1 porque el primero es Ninguno
+					a.setProfe2(profe2);
+					alumnoDAO.insert(a);
+					JOptionPane.showMessageDialog(btnCrear, "Alumno creado");
+					new MatriculaView();
+					frame.dispose();
+
+				} else if (cbProfe2.getSelectedIndex() == 0) {
+					alumnoDAO.insert(a);
+					JOptionPane.showMessageDialog(btnCrear, "Alumno creado");
+					new MatriculaView();
+					frame.dispose();
+				} else {
+					JOptionPane.showMessageDialog(btnCrear, "Los dos profesores favoritos no pueden ser el mismo.");
+
+				}
+			} catch (Exception e) {
 				System.out.println(e.getMessage());
 				JOptionPane.showMessageDialog(btnCrear, "La calificación debe ser decimal.");
 			}
 		}
 	}
-	
+
 	private void fillProfes() {
 		cbProfe2.addItem("Ninguno");
-		for(Profesor p : profes) {
+		for (Profesor p : profes) {
 			cbProfe1.addItem(p.getNombre());
 			cbProfe2.addItem(p.getNombre());
 		}

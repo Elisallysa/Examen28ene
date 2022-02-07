@@ -340,10 +340,11 @@ public class MatriculaView {
 		// Sacar el valor de los profes de los comboboxes
 		Profesor profe1 = profes.get(cbProfe1.getSelectedIndex());
 		a.setProfe1(profe1);
-		if (cbProfe2.getSelectedIndex() != 0 && cbProfe1.getSelectedIndex() != cbProfe2.getSelectedIndex() - 1
-				&& cbProfe2.getSelectedIndex() != cbProfe1.getSelectedIndex() + 1) {
+		if (cbProfe2.getSelectedIndex() != 0 && cbProfe1.getSelectedIndex() != cbProfe2.getSelectedIndex() - 1) {
 			Profesor profe2 = profes.get(cbProfe2.getSelectedIndex() - 1); // -1 porque el primero es Ninguno
 			a.setProfe2(profe2);
+		} else {
+			JOptionPane.showMessageDialog(btnGuardar, "Los dos profesores favoritos no pueden ser el mismo.");
 		}
 		alumnoDAO.update(a);
 	}
