@@ -114,16 +114,41 @@ public class RegisterView {
 				//TODO 2. En el registro, consigue que valide que la contraseña tenga al menos 8 caracteres (1 pto.)
 				
 				if (password.length()>=8) {
-					Usuario u = new Usuario(0, username, password);
-					boolean alreadyRegisteredUser = usuarioDAO.consulta(u);
-					if (!alreadyRegisteredUser) {
-						usuarioDAO.register(u);
-						JOptionPane.showMessageDialog(btnRegister, "Usuario registrado correctamente");
-						new LoginView();
-						frame.dispose();	
-					} else {
-						JOptionPane.showMessageDialog(btnRegister, "Este usuario ya está registrado.");
+					boolean containsLowerCase = false;
+					boolean containsUpperCase = false;
+					boolean containsDigit = false;
+					boolean containsSymbol = false;
+					
+					
+					for (int i= 0; i < password.length(); i++) {
+						if (Character.isLowerCase(password.charAt(i))) {
+							containsLowerCase = true;
+						} else if (Character.isUpperCase(password.charAt(i))) {
+							containsUpperCase = true;
+						} else if (Character.isDigit(i)) {
+							containsDigit = true;
+						} else if (password.charAt(i) == 'd') {
+							
+						}
 					}
+					
+					if (containsLowerCase && containsUpperCase && containsDigit && password.contains("º")) {
+						Usuario u = new Usuario(0, username, password);
+						boolean alreadyRegisteredUser = usuarioDAO.consulta(u);
+						if (!alreadyRegisteredUser) {
+							usuarioDAO.register(u);
+							JOptionPane.showMessageDialog(btnRegister, "Usuario registrado correctamente");
+							new LoginView();
+							frame.dispose();	
+						} else {
+							JOptionPane.showMessageDialog(btnRegister, "Este usuario ya está registrado.");
+						}
+					} else {
+						JOptionPane.showMessageDialog(btnRegister, "La contraseña debe contener al menos una mayúscula y una minúscula.");
+					}
+					
+					
+					
 				
 				} else {
 					JOptionPane.showMessageDialog(lblRegistrar, "La contraseña debe tener 8 o más caracteres.");
