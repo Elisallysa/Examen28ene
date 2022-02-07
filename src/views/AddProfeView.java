@@ -6,32 +6,32 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import dao.AlumnoDAO;
+
 import dao.ProfeDAO;
-import models.Alumno;
+
 import models.Profesor;
 
 public class AddProfeView {
 
 	private JFrame frame;
 	private JTextField tfNombre;
-	private AlumnoDAO alumnoDAO;
 	private ProfeDAO profeDAO;
 	private JButton btnCrear;
 	private ArrayList<Profesor> profes;
 	private JTextField tfId;
+	private JLabel lblId;
+	private JLabel lblNombre;
 
 	/**
 	 * Create the application.
 	 */
 	public AddProfeView() {
-		this.alumnoDAO = new AlumnoDAO();
 		this.profeDAO = new ProfeDAO();
 		this.profes = profeDAO.getAll();
 		initialize();
@@ -52,7 +52,7 @@ public class AddProfeView {
 
 		tfNombre = new JTextField();
 		tfNombre.setText("nombre");
-		tfNombre.setBounds(101, 123, 243, 26);
+		tfNombre.setBounds(155, 123, 243, 26);
 		frame.getContentPane().add(tfNombre);
 		tfNombre.setColumns(10);
 
@@ -68,10 +68,19 @@ public class AddProfeView {
 		frame.getContentPane().add(btnCrear);
 		
 		tfId = new JTextField();
-		tfId.setText("id");
+		tfId.setEditable(false);
+		tfId.setText(String.valueOf(profes.size()+1));
 		tfId.setColumns(10);
-		tfId.setBounds(101, 89, 243, 26);
+		tfId.setBounds(155, 89, 243, 26);
 		frame.getContentPane().add(tfId);
+		
+		lblId = new JLabel("Id profe");
+		lblId.setBounds(46, 95, 115, 13);
+		frame.getContentPane().add(lblId);
+		
+		lblNombre = new JLabel("Nombre");
+		lblNombre.setBounds(46, 129, 115, 13);
+		frame.getContentPane().add(lblNombre);
 		
 	}
 
@@ -80,13 +89,11 @@ public class AddProfeView {
 			JOptionPane.showMessageDialog(btnCrear, "Introduce un nombre");
 		} else {
 			try {
-				//NO ME DA TIEMPO A CONTROLAR QUE EL ID SEA UN NÚMERO ENTERO!!
 				Profesor p = new Profesor(Integer.parseInt(tfId.getText()), tfNombre.getText());
-				
 				if (!profeDAO.isCreated(p)) {
 					profes.add(p);
 					profeDAO.insert(p);
-					JOptionPane.showMessageDialog(btnCrear, "Profe creado");
+					JOptionPane.showMessageDialog(btnCrear, "Profe creado.");
 					new MatriculaView();
 					frame.dispose();
 				} else {
