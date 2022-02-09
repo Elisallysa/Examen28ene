@@ -120,19 +120,18 @@ public class RegisterView {
 					boolean containsSymbol = false;
 					
 					
-					for (int i= 0; i < password.length(); i++) {
+					
+					for (int i= 0; i < password.length(); i++){
 						if (Character.isLowerCase(password.charAt(i))) {
 							containsLowerCase = true;
 						} else if (Character.isUpperCase(password.charAt(i))) {
 							containsUpperCase = true;
-						} else if (Character.isDigit(i)) {
+						} else if (Character.isDigit(password.charAt(i))) {
 							containsDigit = true;
-						} else if (password.charAt(i) == 'd') {
-							
-						}
+						} 
 					}
 					
-					if (containsLowerCase && containsUpperCase && containsDigit && password.contains("º")) {
+					if (containsLowerCase && containsUpperCase && containsDigit && (password.contains("º||ª||!||·||$||%||&||(||)||="))) {
 						Usuario u = new Usuario(0, username, password);
 						boolean alreadyRegisteredUser = usuarioDAO.consulta(u);
 						if (!alreadyRegisteredUser) {
@@ -144,7 +143,7 @@ public class RegisterView {
 							JOptionPane.showMessageDialog(btnRegister, "Este usuario ya está registrado.");
 						}
 					} else {
-						JOptionPane.showMessageDialog(btnRegister, "La contraseña debe contener al menos una mayúscula y una minúscula.");
+						JOptionPane.showMessageDialog(btnRegister, "La contraseña debe contener al menos una mayúscula, una minúscula, un número y alguno de estos símbolos especiales: ºª!\"·$%&/()=\\|#");
 					}
 					
 					
